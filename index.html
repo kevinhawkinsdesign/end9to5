@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>End9to5</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700;800&display=swap');
+        
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            width: 100%; 
+            overflow-x: hidden;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #1A1A1A;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+        }
+
+        .neon-highlight {
+            background-color: #CCFF00;
+            padding: 2px 8px;
+            display: inline-block;
+        }
+
+        /* Scroll animations */
+        [data-animate] {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        [data-animate].animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        header {
+            background-color: #FF6B35;
+            color: white;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 0 0 40px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        header h1 { font-size: 28px; margin: 0; }
+        header button {
+            background-color: rgba(255,255,255,0.25);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        header button:hover {
+            background-color: rgba(255,255,255,0.35);
+            transform: translateY(-2px);
+        }
+
+        .section-wrapper {
+            width: 100%;
+            padding: 80px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .section-inner {
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        /* Colors */
+        .cream { background-color: #F5F5F0; }
+        .light-blue { background-color: #C8DDF0; }
+        .taupe { background-color: #ECEAE5; }
+        .orange { background-color: #FF6B35; color: white; }
+
+        h2 {
+            font-size: 48px;
+            line-height: 1.3;
+            margin-bottom: 40px;
+            color: #1A1A1A;
+        }
+        .orange h2 { color: white; }
+
+        p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #666;
+        }
+        .orange p { color: rgba(255,255,255,0.95); }
+
+        .button {
+            background-color: #FF6B35;
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #e55a24;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+        .orange .button {
+            background-color: white;
+            color: #FF6B35;
+        }
+        .orange .button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .module {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+        .module:hover { padding-left: 12px; }
+        .module:last-child { border-bottom: none; }
+
+        .module-number {
+            font-size: 14px;
+            color: #FF6B35;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .module-title {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #1A1A1A;
+            font-weight: 700;
+        }
+        .module-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .play-button {
+            background-color: #FF6B35;
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .play-button:hover {
+            background-color: #e55a24;
+            transform: scale(1.1);
+        }
+
+        /* Benefits with icons */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 0;
+        }
+
+        .benefit {
+            transition: all 0.3s ease;
+        }
+        .benefit:hover { transform: translateY(-8px); }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #F5F5F0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+        .benefit:hover .benefit-icon {
+            background-color: #FF6B35;
+            transform: scale(1.1);
+        }
+
+        .benefit-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #FF6B35;
+            font-weight: 700;
+        }
+        .benefit p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* YouTube embeds */
+        .youtube-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            background-color: #000;
+        }
+        .youtube-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 32px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: none;
+        }
+        .video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .video-card-content {
+            padding: 24px;
+        }
+        .video-card h3 {
+            color: #FF6B35;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        .video-card p {
+            color: #666;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        /* Testimonials Carousel */
+        .testimonials-carousel {
+            margin-bottom: 40px;
+            background: transparent;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .testimonials-track {
+            display: flex;
+            gap: 20px;
+            scroll-behavior: smooth;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 0;
+        }
+
+        .testimonials-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial-slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .testimonial-slide {
+                flex: 0 0 calc(50% - 10px);
+                min-width: calc(50% - 10px);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .testimonial-slide {
+                flex: 0 0 calc(33.333% - 13px);
+                min-width: calc(33.333% - 13px);
+            }
+        }
+
+        .testimonial-card {
+            background-color: #ECEAE5;
+            padding: 28px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .star-rating {
+            font-size: 16px;
+            color: #FF6B35;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #FF6B35;
+            margin-top: auto;
+        }
+
+        .carousel-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .carousel-btn {
+            background-color: #FF6B35;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .carousel-btn:hover {
+            background-color: #e55a24;
+            transform: scale(1.05);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Logos Marquee */
+        .logos-marquee {
+            overflow: hidden;
+            background: transparent;
+            padding: 20px 0;
+        }
+
+        .logos-track {
+            display: flex;
+            animation: scroll-logos 30s linear infinite;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .logo-item {
+            flex: 0 0 auto;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A1A1A;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+        }
+
+        .logo-item img {
+            max-height: 40px;
+            max-width: 120px;
+        }
+
+        @keyframes scroll-logos {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .logos-marquee:hover .logos-track {
+            animation-play-state: paused;
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background-color: #ECEAE5;
+            padding: 28px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 16px;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #FF6B35;
+        }
+
+        /* Rating badge */
+        .rating-badge {
+            background-color: #FF6B35;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        /* FAQ */
+        .faq-item {
+            background-color: transparent;
+            padding: 24px 0;
+            margin-bottom: 12px;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+        .faq-item:hover {
+            box-shadow: none;
+            transform: none;
+        }
+
+        .faq-question {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 0;
+            color: #FF6B35;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-icon {
+            font-size: 24px;
+            color: #FF6B35;
+            transition: all 0.3s ease;
+        }
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+            display: none;
+            margin-top: 16px;
+            padding-top: 0;
+            border-top: none;
+        }
+        .faq-item.open .faq-answer {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pricing card */
+        .pricing-card {
+            background-color: #ECEAE5;
+            padding: 48px 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .pricing-amount {
+            font-size: 56px;
+            color: #FF6B35;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .pricing-subtext {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+        }
+        .pricing-list {
+            text-align: left;
+            font-size: 15px;
+            color: #666;
+            line-height: 2;
+            margin-bottom: 32px;
+        }
+        .pricing-list li {
+            margin-left: 20px;
+        }
+
+        /* Email form */
+        .email-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+        .email-form input,
+        .email-form button {
+            padding: 14px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .email-form input {
+            border: 1px solid #ddd;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        .email-form input:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+        .email-form button {
+            background-color: #FF6B35;
+            color: white;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .email-form button:hover {
+            background-color: #e55a24;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1A1A1A;
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        footer p { color: white; margin: 0; }
+
+        @media (max-width: 768px) {
+            .benefits-grid { grid-template-columns: 1fr; }
+            .email-form { grid-template-columns: 1fr; }
+            h2 { font-size: 32px; }
+            .section-wrapper { padding: 60px 16px; }
+            .section-inner { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="https://end9to5.com/logo-icon.png" alt="End9to5 Logo" style="height: 36px; width: auto;">
+            <h1>End9to5</h1>
+        </div>
+        <button>Log In</button>
+    </header>
+
+    <!-- HERO -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2>You're ready to <span class="neon-highlight">leave your job.</span> You just need <span class="neon-highlight">the roadmap.</span></h2>
+            <p style="max-width: 600px; margin-bottom: 32px;">The 6-month program for mid-career operators. Operational frameworks from Kevin Hawkins (20+ years scaling teams) + transformational coaching from Ora Özer (15+ years in tech and film, specializes in inner development).</p>
+            <button class="button">Apply Now</button>
+        </div>
+    </div>
+
+    <!-- COMPANY LOGOS MARQUEE -->
+    <div class="section-wrapper taupe">
+        <div class="section-inner" data-animate>
+            <p style="text-align: center; color: #666; margin-bottom: 32px; font-size: 14px; font-weight: 600;">
+                Trusted by operators from
+            </p>
+            <div class="logos-marquee">
+                <div class="logos-track">
+                    <div class="logo-item">
+                        <img src="https://www.gstatic.com/images/branding/product/1x/glovo_512dp.png" alt="Glovo" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://www.booking.com/content/dam/dct-usm/booking/city-pages/static/booking-com-logo-2.svg" alt="Booking.com" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://open.spotify.com/favicon" alt="Spotify" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://www.amenitiz.com/assets/img/logo/amenitiz-logo-horizontal.svg" alt="Amenitiz" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">OMEK</div>
+                    <div class="logo-item">Three Jewels</div>
+                    <!-- Repeat for seamless loop -->
+                    <div class="logo-item">
+                        <img src="https://www.gstatic.com/images/branding/product/1x/glovo_512dp.png" alt="Glovo" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://www.booking.com/content/dam/dct-usm/booking/city-pages/static/booking-com-logo-2.svg" alt="Booking.com" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://open.spotify.com/favicon" alt="Spotify" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://www.amenitiz.com/assets/img/logo/amenitiz-logo-horizontal.svg" alt="Amenitiz" style="height: 40px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="logo-item">OMEK</div>
+                    <div class="logo-item">Three Jewels</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO TESTIMONIAL -->
+    <div class="section-wrapper light-blue">
+        <div class="section-inner" data-animate>
+            <div class="testimonial-card">
+                <div class="star-rating">★★★★★</div>
+                <div class="testimonial-text">"This program changed how I see my capabilities. Kevin's frameworks made my vague ideas concrete. Ora's coaching gave me the belief I could actually do this. <strong>I went from wondering 'should I?' to building real revenue within 4 months.</strong>"</div>
+                <div class="testimonial-author">▶ Sarah, Design → Indie Studio</div>
+            </div>
+            <button class="button" style="margin-top: 32px;">Apply Now</button>
+        </div>
+    </div>
+
+    <!-- ABOUT/MISSION - Light Blue -->
+    <div class="section-wrapper light-blue">
+        <div class="section-inner" data-animate>
+            <p style="font-size: 18px; line-height: 2; margin-bottom: 24px; color: #333;">
+                The first 6 months of building your business while employed is the most challenging period. The work is hard, and you feel alone in the challenges you're facing. You don't know what to expect, and you find it hard to ask for advice.
+            </p>
+            <p style="font-size: 18px; line-height: 2; margin-bottom: 24px; color: #333;">
+                Despite the early difficulties, <strong>building your own business is the best thing you can do.</strong> It transforms your life with confidence and empowerment. It brings financial freedom. It gives you a joyful, successful venture of your own design.
+            </p>
+            <p style="font-size: 18px; line-height: 2; color: #333;">
+                Our mission with End9to5 is to give you a clear view of what the employed-to-founder transition holds. From deciding to leave to building a thriving practice, and all the challenges in between — we want you to feel prepared, comfortable, and calm as you face your future.
+            </p>
+        </div>
+    </div>
+
+    <!-- COURSE MODULES -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2><span class="neon-highlight">Thoughtful lessons</span> and personal advice:</h2>
+            <p style="max-width: 700px; margin-bottom: 48px;">Each phase includes audio modules with frameworks, worksheets, downloadable templates, and stories from Kevin and Ora's experience. Go through at your own pace.</p>
+
+            <div class="module" data-animate>
+                <div style="flex: 1;">
+                    <div class="module-number">0.0</div>
+                    <div class="module-title">Introduction</div>
+                    <div class="module-desc">Roadmap overview. Your goals and the journey ahead.</div>
+                </div>
+                <button class="play-button">▶</button>
+            </div>
+
+            <div class="module" data-animate>
+                <div style="flex: 1;">
+                    <div class="module-number">1</div>
+                    <div class="module-title">Deciding to Leave Your Job</div>
+                    <div class="module-desc">Emotional and practical reality. When is the right time?</div>
+                </div>
+                <button class="play-button">▶</button>
+            </div>
+
+            <div class="module" data-animate>
+                <div style="flex: 1;">
+                    <div class="module-number">2</div>
+                    <div class="module-title">Clarity: Validating Your Idea</div>
+                    <div class="module-desc">Customer research. Market validation. Build conviction.</div>
+                </div>
+                <button class="play-button">▶</button>
+            </div>
+
+            <div class="module" data-animate>
+                <div style="flex: 1;">
+                    <div class="module-number">3</div>
+                    <div class="module-title">Positioning: Finding Your Audience</div>
+                    <div class="module-desc">Messaging. Positioning. Go-to-market strategy.</div>
+                </div>
+                <button class="play-button">▶</button>
+            </div>
+
+            <div class="module" data-animate>
+                <div style="flex: 1;">
+                    <div class="module-number">4</div>
+                    <div class="module-title">Ship: Getting Your First Customers</div>
+                    <div class="module-desc">MVP/Service launch. Sales frameworks. First revenue.</div>
+                </div>
+                <button class="play-button">▶</button>
+            </div>
+
+            <div class="module" data-animate>
+                <div style="flex: 1;">
+                    <div class="module-number">5</div>
+                    <div class="module-title">Scale: Sustainable Growth</div>
+                    <div class="module-desc">12-month roadmap. Financial modeling. Pricing. Hiring.</div>
+                </div>
+                <button class="play-button">▶</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BENEFITS WITH ICONS -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2>You'll go forward with:</h2>
+            <div class="benefits-grid">
+                <div class="benefit" data-animate>
+                    <div class="benefit-icon">✱</div>
+                    <div class="benefit-title">Validated Idea</div>
+                    <p>Customers actually want to pay for it.</p>
+                </div>
+                <div class="benefit" data-animate>
+                    <div class="benefit-icon">⬆</div>
+                    <div class="benefit-title">Paying Customers</div>
+                    <p>Real revenue and proof of market.</p>
+                </div>
+                <div class="benefit" data-animate>
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">Systems & Frameworks</div>
+                    <p>How to sell, scale, and manage energy.</p>
+                </div>
+            </div>
+
+            <div style="background-color: #FFF8F0; padding: 32px; border-radius: 8px; margin-top: 48px;" data-animate>
+                <p style="color: #1A1A1A; margin: 0; font-size: 15px; line-height: 1.8;"><strong>Plus:</strong> Forever access to your cohort community and all resources shared during the program. You're not done when the 6 months end—you're part of this group for life.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPARISON SECTION -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2>How we're <span class="neon-highlight">different</span> from other options:</h2>
+            <p style="max-width: 700px; margin-bottom: 48px;">There are great programmes in Barcelona. But none combine inner development coaching with operational frameworks, designed specifically for people still employed.</p>
+
+            <div style="overflow-x: auto; margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.8;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #FF6B35;">
+                            <th style="text-align: left; padding: 16px 12px; color: #FF6B35; font-weight: 700;">Dimension</th>
+                            <th style="text-align: center; padding: 16px 12px; color: #FF6B35; font-weight: 700; background-color: #FFF8F0;">End9to5</th>
+                            <th style="text-align: center; padding: 16px 12px; color: #666; font-weight: 600;">ESADE eWorks</th>
+                            <th style="text-align: center; padding: 16px 12px; color: #666; font-weight: 600;">Karisma Selekt</th>
+                            <th style="text-align: center; padding: 16px 12px; color: #666; font-weight: 600;">Mindeurs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Designed for employed people</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓ Core</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">Flexible</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Inner development coaching</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓ Core</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Branding + identity</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓ Core</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Audio-first curriculum</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">In-person workshops</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">1:1 coaching available</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">Peer match</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Community cohort</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">Monthly</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">No equity taken</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">✓</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Forever community access</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">Limited</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">Ongoing</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Forever resource access</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">✓</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">—</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 16px 12px; font-weight: 700; color: #1A1A1A;">Duration</td>
+                            <td style="text-align: center; padding: 16px 12px; background-color: #FFF8F0; color: #FF6B35; font-weight: 700;">6 months</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">8 months</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">Variable</td>
+                            <td style="text-align: center; padding: 16px 12px; color: #666;">Ongoing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background-color: #FFF8F0; padding: 24px; border-radius: 8px; margin-bottom: 24px;" data-animate>
+                <p style="color: #1A1A1A; margin: 0; font-size: 15px;"><strong>The gap we fill:</strong> Most programmes teach operations OR mindset. We integrate both. You get a clear roadmap AND the inner work transformation needed to actually make the leap — designed specifically for people still employed, building on the side.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- KEVIN BIO SECTION -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2 style="color: #1A1A1A; margin-bottom: 40px;">
+                Meet Kevin: <span class="neon-highlight">The Operator</span>
+            </h2>
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start;">
+                <div>
+                    <div style="background-color: rgba(255, 107, 53, 0.1); border-radius: 8px; padding: 120px 20px; text-align: center; color: #999; margin-bottom: 24px; aspect-ratio: 1;">
+                        [Kevin Photo Here]
+                    </div>
+                </div>
+                <div style="min-width: 0;">
+                    <p style="font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                        Kevin is a product operator and design strategist with 20+ years scaling teams and building products at scale. He's led 100+ designers at Glovo, shipped products at Booking.com and JPMorgan, and founded 3 companies. He brings frameworks from building in chaos to help founders move fast without losing clarity.
+                    </p>
+                    
+                    <div id="kevin-bio-expanded" style="display: none;">
+                        <p style="font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                            At End9to5, Kevin designs the operational pillar—brand strategy, business positioning, go-to-market roadmaps, and the unglamorous systems that make the difference between survival and scale. He's taught at Georgetown University and Growth Tribe, mentored 50+ founders, and runs The Common Thread, a BCN-based community for high-intention operators.
+                        </p>
+                        <p style="font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                            His philosophy: good strategy is simple. It's not about complex plans—it's about clarity on who you're building for, why they care, and how to make money doing it. He believes founders need both the roadmap and permission to slow down.
+                        </p>
+                    </div>
+
+                    <button id="kevin-bio-toggle" onclick="document.getElementById('kevin-bio-expanded').style.display = document.getElementById('kevin-bio-expanded').style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent === 'Read More' ? 'Read Less' : 'Read More';" style="background: none; border: none; color: #FF6B35; font-weight: 700; cursor: pointer; padding: 0; margin-bottom: 20px; text-decoration: underline;">Read More</button>
+
+                    <div style="background-color: rgba(0,0,0,0.04); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="font-size: 14px; color: #666; margin: 0; line-height: 1.8;">
+                            <strong>Background:</strong> Glovo (100+ designers) → Booking.com → JPMorgan → 3x founder → Georgetown lecturer → Common Thread founder
+                        </p>
+                    </div>
+
+                    <a href="https://www.youtube.com" style="color: #FF6B35; text-decoration: none; font-weight: 600; font-size: 14px;">→ Watch Kevin on The Common Thread Podcast</a>
+                </div>
+            </div>
+
+            <style>
+                @media (min-width: 768px) {
+                    .kevin-grid {
+                        grid-template-columns: 1fr 1fr;
+                    }
+                }
+            </style>
+        </div>
+    </div>
+
+    <!-- ORA BIO SECTION -->
+    <div class="section-wrapper light-blue">
+        <div class="section-inner" data-animate>
+            <h2 style="color: #1A1A1A; margin-bottom: 40px;">
+                Meet Ora: <span class="neon-highlight">The Coach</span>
+            </h2>
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start;" class="kevin-grid">
+                <div>
+                    <div style="background-color: rgba(200, 221, 240, 0.5); border-radius: 8px; padding: 120px 20px; text-align: center; color: #999; margin-bottom: 24px; aspect-ratio: 1;">
+                        [Ora Photo Here]
+                    </div>
+                </div>
+                <div style="min-width: 0;">
+                    <p style="font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                        Ora is a transformational coach with 15+ years in tech and film, specializing in inner development—helping creators move through identity shifts and self-doubt to build aligned lives and businesses. She realized her calling was to work with people who want to bring their visions to life sustainably.
+                    </p>
+
+                    <div id="ora-bio-expanded" style="display: none;">
+                        <p style="font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                            She's facilitated meditation and breathwork for 1000+ people and understands firsthand the psychological and emotional barriers that stop talented people from building. She hosts <strong>Become the Vision</strong>, a podcast on personal transformation and vision-setting, and speaks internationally on identity shifts, resilience, and building sustainably.
+                        </p>
+                        <p style="font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 20px;">
+                            At End9to5, Ora designs the inner development pillar—helping you build the psychological and emotional foundations needed to leave your job, handle uncertainty, and actually sustain the journey. She believes how you do things is just as important as what you do.
+                        </p>
+                    </div>
+
+                    <button id="ora-bio-toggle" onclick="document.getElementById('ora-bio-expanded').style.display = document.getElementById('ora-bio-expanded').style.display === 'none' ? 'block' : 'none'; this.textContent = this.textContent === 'Read More' ? 'Read Less' : 'Read More';" style="background: none; border: none; color: #FF6B35; font-weight: 700; cursor: pointer; padding: 0; margin-bottom: 20px; text-decoration: underline;">Read More</button>
+
+                    <div style="background-color: rgba(0,0,0,0.04); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="font-size: 14px; color: #666; margin: 0; line-height: 1.8;">
+                            <strong>Background:</strong> Film industry → Meditation teacher → Transformational coach → Become the Vision podcast → End9to5 co-founder
+                        </p>
+                    </div>
+
+                    <a href="https://www.youtube.com" style="color: #FF6B35; text-decoration: none; font-weight: 600; font-size: 14px;">→ Listen to Become the Vision Podcast</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CASE STUDY VIDEO -->
+    <div class="section-wrapper taupe">
+        <div class="section-inner" data-animate>
+            <h2 style="margin-bottom: 40px;">
+                <span class="neon-highlight">Real Stories:</span> From Employment to Revenue
+            </h2>
+
+            <div class="video-card" data-animate>
+                <div class="youtube-container">
+                    <iframe src="https://www.youtube.com/embed/jNQXAC9IVRw?modestbranding=1&rel=0" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="video-card-content">
+                    <h3>6 Months, 4 Participants, Real Results</h3>
+                    <p>Hear from Sarah, Marcus, and Elena about their journeys from employed to founder—what they learned, how they scaled, and where they are now.</p>
+                    <button class="button">Watch Participant Stories</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHAT STUDENTS SAY - WITH DRAGGABLE CAROUSEL -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2><span class="neon-highlight">What participants</span> have to say:</h2>
+            <div class="rating-badge">9.6/10 Average rating</div>
+
+            <!-- Testimonials Carousel -->
+            <div class="testimonials-carousel">
+                <div class="carousel-container">
+                    <div class="testimonials-track" id="testimonials-track">
+                        <div class="testimonial-slide">
+                            <div class="testimonial-card">
+                                <div class="star-rating">★★★★★</div>
+                                <div class="testimonial-text">"The program changed how I see my capabilities. Kevin's frameworks made my vague ideas concrete. Ora's coaching gave me belief I could actually do this. Building real revenue within 4 months."</div>
+                                <div class="testimonial-author">▶ Sarah, Design → Indie Studio</div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-slide">
+                            <div class="testimonial-card">
+                                <div class="star-rating">★★★★★</div>
+                                <div class="testimonial-text">"I was burned out, underearning, convinced I couldn't leave without a safety net. The program showed me I already had the safety net — it's called skills and confidence. Now I'm building something that matters."</div>
+                                <div class="testimonial-author">▶ Marcus, PM → Consultant</div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-slide">
+                            <div class="testimonial-card">
+                                <div class="star-rating">★★★★★</div>
+                                <div class="testimonial-text">"The templates alone saved me weeks of work. Knowing that Kevin and Ora had been through the same fears I had — that made all the difference. I feel like I have a safety net AND a clear path forward."</div>
+                                <div class="testimonial-author">▶ Elena, HR → Executive Coach</div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-slide">
+                            <div class="testimonial-card">
+                                <div class="star-rating">★★★★☆</div>
+                                <div class="testimonial-text">"The community aspect was transformative. I expected business frameworks, but the peer connections and shared vulnerability made it feel like I wasn't alone in this journey. That's rare."</div>
+                                <div class="testimonial-author">▶ James, Product → SaaS Founder</div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-slide">
+                            <div class="testimonial-card">
+                                <div class="star-rating">★★★★★</div>
+                                <div class="testimonial-text">"The audio-first format was perfect. I listened during my commute, did homework on weekends, and felt like I was actually moving forward without burning out. It works."</div>
+                                <div class="testimonial-author">▶ Lucia, Designer → Brand Strategist</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="carousel-prev">←</button>
+                    <button class="carousel-btn" id="carousel-next">→</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2>Ready to go forward?</h2>
+            <div class="pricing-card">
+                <div class="pricing-amount">€1,200</div>
+                <div class="pricing-subtext">One-time payment</div>
+                <ul class="pricing-list">
+                    <li>6 months of audio modules & frameworks</li>
+                    <li>Worksheets, templates & resources</li>
+                    <li>2 monthly in-person workshops</li>
+                    <li>Email support & 2 check-in calls</li>
+                    <li>Community access & vetted network</li>
+                    <li><strong>Forever access</strong> to your cohort community</li>
+                    <li><strong>Forever access</strong> to all resources shared during your cohort</li>
+                </ul>
+                <p style="font-size: 13px; color: #666; margin-bottom: 24px; line-height: 1.6;">
+                    <strong>Payment options:</strong> Pay upfront or use Klarna / SeQura for flexible installments. We receive payment upfront; you manage monthly payments with the provider.
+                </p>
+                <p style="font-size: 13px; color: #666; line-height: 1.6;">
+                    <strong>Business partners:</strong> If you and a co-founder are building together, both sign up but enter the same business name. We'll bill you as one participant.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMAIL SIGNUP - FOR READY PEOPLE -->
+    <div class="section-wrapper orange">
+        <div class="section-inner" style="text-align: center;" data-animate>
+            <h2>You're ready. Let's do this.</h2>
+            <p style="margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;">The next cohort starts May 1st, 2026. Limited spots. Rolling cohorts start every month after that. Enter your email below and we'll send you an intake form to learn more about your idea.</p>
+            
+            <div style="max-width: 500px; margin: 0 auto;">
+                <form id="mailchimp-form" class="email-form">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit">Join Cohort</button>
+                </form>
+                <p style="font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 16px;">We'll send you an intake form. No application fees. No commitment needed until after our first check-in call.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section-wrapper cream">
+        <div class="section-inner" data-animate>
+            <h2><span class="neon-highlight">Questions:</span></h2>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">Do I need a fully formed idea to start? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">No. The first phase is entirely about exploring, testing, and refining ideas. Many start with a direction, not a fully formed business. We'll help you validate and sharpen it through customer research and market testing.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What if my idea fails during the program? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Failure is baked in as learning. You'll ship something, get real feedback, iterate, and learn. Most "failures" are just data that help you adjust course. Many participants pivot their idea mid-program based on what they learn—that's success.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">How much time does this take per week? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">10-15 hours per week. Audio modules during commutes, worksheets on weekends, one monthly in-person workshop (2-3 hours). Designed for people still employed, building on the side. The audio format means you control when and where you engage.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">Is this different from other programs? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Yes. Most programs teach operations OR mindset. We integrate both. You get the roadmap AND inner work transformation. Specifically designed for the employed-to-founder transition—no other program in Barcelona combines these in this way.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What industries do you work with? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Services, consulting, coaching, training, digital products, tech-enabled solutions, events, wellness, and food/beverage concepts. We avoid hardware, manufacturing, defense, and team sports. If you're unsure, apply—we'll let you know if it's a fit.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">Do I need startup capital or initial revenue? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">No. We work with people at zero revenue and minimal startup capital. The program is designed around validation and lean launch. You'll learn how to validate with customers before spending money.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What's included in the 1:1 coaching options? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Your base price includes 2 check-in calls (one free in month 1, one at your choosing). Optional tiered upgrades give you additional 1:1 access to Kevin (branding, positioning, go-to-market strategy) or Ora (inner development, identity work, confidence). Most people find the cohort + group sessions + 2 check-ins sufficient.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">How does the cohort work if I join late? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Cohorts are 6 months rolling, starting monthly. You join at any point and work through modules at your own pace via audio + worksheets. Monthly in-person workshops are repeating sessions, so if you miss one, you'll see it again. You complete modules as they cycle through—flexible entry means you're never "behind."</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What if I'm a business partner with someone else? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Great—we love co-founders. Both of you should sign up, but enter the same business name. We'll recognize you're a partnership and bill you as one participant (one fee, shared access). You'll both be in the cohort together.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">Is there legal or financial advice included? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">We don't provide legal or financial advice directly—that's outside our scope. But we have a vetted referral list of English-speaking lawyers, accountants, and gestors in Barcelona. We also offer an AI-assisted business registration tool to guide you through Spanish paperwork in multiple languages.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">Will I be pushed toward venture funding or investor pitch training? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">No. We're not an accelerator with a fund to fill. This is about building the business that fits your life—not chasing a funding round. If you want to raise later, you'll have a much stronger foundation from this program, but it's entirely your choice.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What happens if I can't make the monthly in-person workshops? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Life happens. The core of the program—audio modules, worksheets, templates—is all async and self-paced. In-person workshops are for community and real-time interaction, but they repeat monthly. If you miss one, you'll catch the next cycle. Optional 1:1 sessions can be scheduled around your availability.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">How do you handle the technical side of building? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">We focus on strategy, positioning, and launching with what you have. If you need to build a website, app, or SaaS product, we can recommend vetted developers or no-code tools. We teach you how to communicate your needs clearly so you can work with builders efficiently.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What formats can I submit homework in? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Whatever works for you. Voice notes, written documents, sketches, photos, Google Docs, spreadsheets—we accept all formats. We use AI to convert everything into consistent feedback. The goal is to meet you where you are, not force you into one way of working.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">Can I do this entirely online? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Almost. The monthly in-person workshops in Barcelona are optional for remote participants, but we recommend attending at least a few to build real connections and feel the cohort energy. Everything else—audio, worksheets, coaching—is available online from anywhere.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What's the refund policy? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">We offer a full refund within 14 days of your first check-in call if you're not satisfied. After that, we work with you on next steps—no refunds, but we can discuss options for pausing or adjusting your participation.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">Do you offer payment plans or financing? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Yes. You can pay upfront, or use Klarna and SeQura for flexible monthly installments. We work with third-party providers so you manage payments directly with them—we receive the full amount upfront, and you're not at risk of us chasing you for late payments.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">What makes the inner development coaching different? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Ora's coaching pillar addresses the emotional and identity barriers that stop most people from making the leap. Fear of the unknown, impostor syndrome, identity shifts—these are real obstacles. We treat them as seriously as business strategy. This is rarely covered in other programs, and it's often the difference between sustaining your venture and getting stuck.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <div class="faq-question">How will I know if this is right for me? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">You're a good fit if: you're employed right now, you have an idea or area of expertise you want to build around, you're willing to do the work, you're open to inner development, and you genuinely want to create something (not just chase quick money). The free check-in call is designed for you to decide if it aligns with where you are.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <img src="https://end9to5.com/logo-icon.png" alt="End9to5 Logo" style="height: 28px; width: auto;">
+            <span style="font-weight: 700;">End9to5</span>
+        </div>
+        <p style="margin-bottom: 12px;">© 2026 End9to5. All rights reserved.</p>
+        <p>Built for people ready to leave their job and build something real.</p>
+    </footer>
+
+    <script>
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+
+        // Draggable Carousel
+        const track = document.getElementById('testimonials-track');
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        if (track) {
+            track.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - track.offsetLeft;
+                scrollLeft = track.scrollLeft;
+                track.style.cursor = 'grabbing';
+            });
+
+            track.addEventListener('mouseleave', () => {
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mouseup', () => {
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                const walk = (x - startX) * 1;
+                track.scrollLeft = scrollLeft - walk;
+            });
+
+            // Touch support
+            track.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX - track.offsetLeft;
+                scrollLeft = track.scrollLeft;
+            });
+
+            track.addEventListener('touchmove', (e) => {
+                const x = e.touches[0].clientX - track.offsetLeft;
+                const walk = (x - startX) * 1;
+                track.scrollLeft = scrollLeft - walk;
+            });
+
+            // Arrow button controls
+            prevBtn.addEventListener('click', () => {
+                const slideWidth = track.children[0]?.offsetWidth + 20;
+                track.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const slideWidth = track.children[0]?.offsetWidth + 20;
+                track.scrollBy({ left: slideWidth, behavior: 'smooth' });
+            });
+
+            track.style.cursor = 'grab';
+        }
+
+        // MailChimp Form Integration
+        document.getElementById('mailchimp-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = e.target.querySelector('input[type="email"]').value;
+            const button = e.target.querySelector('button');
+            const originalText = button.textContent;
+            
+            // TODO: Replace with your MailChimp form action URL and form ID
+            const mailchimpFormAction = 'https://[your-mailchimp-account].us[X].list-manage.com/subscribe/post?u=[USER_ID]&id=[LIST_ID]';
+            const formData = new FormData();
+            formData.append('EMAIL', email);
+            formData.append('b_[USER_ID]_[LIST_ID]', ''); // Anti-bot field
+            
+            try {
+                button.textContent = 'Sending...';
+                button.disabled = true;
+                
+                // For JSONP callback with MailChimp
+                const response = await fetch(mailchimpFormAction + '&_mc_signupsource=web', {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+                
+                button.textContent = '✓ Check your email!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    e.target.reset();
+                }, 3000);
+                
+            } catch (error) {
+                button.textContent = 'Error. Try again.';
+                button.disabled = false;
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
